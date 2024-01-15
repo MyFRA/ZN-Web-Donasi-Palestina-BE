@@ -126,6 +126,8 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'RAJAONGKIR_API_KEY' => env('RAJAONGKIR_API_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver

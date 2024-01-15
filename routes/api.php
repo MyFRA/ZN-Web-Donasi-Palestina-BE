@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\AvailableDonationController;
+use App\Http\Controllers\Api\CheckoutController;
+use App\Http\Controllers\Api\DonationController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ShippingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +19,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('/donate')->group(function () {
+    Route::post('/', [DonationController::class, 'requestDonate']);
+});
+
+Route::prefix('/available-donations')->group(function () {
+    Route::get('/', [AvailableDonationController::class, 'index']);
+});
+
+Route::prefix('/products')->group(function () {
+    Route::get('/', [ProductController::class, 'index']);
+    Route::get('/{id}', [ProductController::class, 'show']);
+});
+
+Route::prefix('/shipping')->group(function () {
+    Route::get('/courier', [ShippingController::class, 'getCourier']);
+    Route::get('/provinces', [ShippingController::class, 'getProvinces']);
+    Route::get('/cities', [ShippingController::class, 'getCities']);
+    Route::post('/costs', [ShippingController::class, 'getCosts']);
+});
+
+Route::prefix('/checkouts')->group(function () {
+    Route::post('/', [CheckoutController::class, 'doCheckout']);
 });
