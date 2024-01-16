@@ -5,6 +5,7 @@ use App\Http\Controllers\Panel\DashboardController;
 use App\Http\Controllers\Panel\DonationPackageController;
 use App\Http\Controllers\Panel\DonationPackagesCollectedController;
 use App\Http\Controllers\Panel\ProductDonationController;
+use App\Http\Controllers\Panel\ProductDonationOrderCollectedController;
 use App\Http\Controllers\Panel\SettingController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +51,10 @@ Route::group([
 
     Route::prefix('/donation-packages-collected')->group(function () {
         Route::get('/', [DonationPackagesCollectedController::class, 'index']);
+    });
+
+    Route::prefix('/product-donation-orders-collected')->group(function () {
+        Route::get('/', [ProductDonationOrderCollectedController::class, 'index']);
     });
 });
 

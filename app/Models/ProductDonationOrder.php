@@ -36,4 +36,9 @@ class ProductDonationOrder extends Model
         'total',
         'postal_code'
     ];
+
+    public function productOrders()
+    {
+        return $this->hasMany(ProductDonationOrderHasProducts::class, 'product_donation_order_id', 'id');
+    }
 }
