@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Panel\DashboardController;
 use App\Http\Controllers\Panel\DonationPackageController;
+use App\Http\Controllers\Panel\ProductDonationController;
 use App\Http\Controllers\Panel\SettingController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,15 @@ Route::group([
         Route::get('/{id}/edit', [DonationPackageController::class, 'edit']);
         Route::put('/{id}', [DonationPackageController::class, 'update']);
         Route::delete('/{id}', [DonationPackageController::class, 'destroy']);
+    });
+
+    Route::prefix('/product-donations')->group(function () {
+        Route::get('/', [ProductDonationController::class, 'index']);
+        Route::get('/create', [ProductDonationController::class, 'create']);
+        Route::post('/', [ProductDonationController::class, 'store']);
+        Route::get('/{id}/edit', [ProductDonationController::class, 'edit']);
+        Route::put('/{id}', [ProductDonationController::class, 'update']);
+        Route::delete('/{id}', [ProductDonationController::class, 'destroy']);
     });
 });
 
