@@ -47,6 +47,7 @@ Route::prefix('/checkouts')->group(function () {
 
 Route::prefix('recap-donation')->group(function () {
     Route::get('/donation-collected', [RecapDonationController::class, 'getDonationCollected']);
+    Route::get('/donatur', [RecapDonationController::class, 'getDonatur']);
 });
 
 Route::prefix('setting-company')->group(function () {
