@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AvailableDonationController;
 use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\DonationController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\RecapDonationController;
 use App\Http\Controllers\Api\ShippingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,4 +42,8 @@ Route::prefix('/shipping')->group(function () {
 
 Route::prefix('/checkouts')->group(function () {
     Route::post('/', [CheckoutController::class, 'doCheckout']);
+});
+
+Route::prefix('recap-donation')->group(function () {
+    Route::get('/donation-collected', [RecapDonationController::class, 'getDonationCollected']);
 });
