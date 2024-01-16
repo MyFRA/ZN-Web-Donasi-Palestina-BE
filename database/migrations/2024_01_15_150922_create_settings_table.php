@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
+            $table->string('company_logo');
+            $table->string('company_name');
+            $table->string('company_description');
             $table->string('shipping_province');
             $table->string('shipping_province_id');
             $table->string('shipping_city');

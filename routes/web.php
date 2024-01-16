@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Panel\DashboardController;
+use App\Http\Controllers\Panel\SettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,11 @@ Route::group([
     'middleware' => ['auth']
 ], function () {
     Route::get('/', [DashboardController::class, 'index']);
+
+    Route::prefix('/setting')->group(function () {
+        Route::get('/', [SettingController::class, 'edit']);
+        Route::put('/', [SettingController::class, 'update']);
+    });
 });
 
 Auth::routes();

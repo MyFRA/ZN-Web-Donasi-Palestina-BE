@@ -14,6 +14,9 @@ class SettingsTableSeeder extends Seeder
     public function run(): void
     {
         Setting::create([
+            'company_logo' => 'http://kalasahan.matursoft.com/logo.jpg',
+            'company_name' => 'Kalasahan',
+            'company_description' => 'Kalasahan adalah organisasi amal yang berkomitmen memberikan bantuan kepada anak-anak di Palestina untuk mendukung kesejahteraan dan pengembangan mereka.',
             'shipping_province' => 'DKI Jakarta',
             'shipping_province_id' => 6,
             'shipping_city' => 'Jakarta Pusat',

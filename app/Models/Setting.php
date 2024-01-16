@@ -10,6 +10,6 @@ class Setting extends Model
     use HasFactory;
 
     protected $fillable = [
-        'shipping_province', 'shipping_province_id', 'shipping_city', 'shipping_city_id', 'additional_shipping_fee'
+        'company_logo', 'company_name', 'company_description', 'shipping_province', 'shipping_province_id', 'shipping_city', 'shipping_city_id', 'additional_shipping_fee'
     ];
 }
