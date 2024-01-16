@@ -21,10 +21,22 @@
             @include('panel.layouts.partials.footer')
         </div>
     </div>
-
+    <form action="" method="post" id="form-delete">
+        @method('DELETE')
+        @csrf
+    </form>
 
     <script src="{{ asset('panel-assets/js/app.js') }}"></script>
     @yield('scripts')
+    <script>
+        function onDelete(elem) {
+            if (confirm('Apakah anda yakin?')) {
+                const formElement = document.getElementById('form-delete');
+                formElement.setAttribute('action', elem.dataset.url)
+                formElement.submit()
+            }
+        }
+    </script>
 
 </body>
 

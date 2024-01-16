@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Panel\DashboardController;
+use App\Http\Controllers\Panel\DonationPackageController;
 use App\Http\Controllers\Panel\SettingController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,15 @@ Route::group([
     Route::prefix('/setting')->group(function () {
         Route::get('/', [SettingController::class, 'edit']);
         Route::put('/', [SettingController::class, 'update']);
+    });
+
+    Route::prefix('/donation-packages')->group(function () {
+        Route::get('/', [DonationPackageController::class, 'index']);
+        Route::get('/create', [DonationPackageController::class, 'create']);
+        Route::post('/', [DonationPackageController::class, 'store']);
+        Route::get('/{id}/edit', [DonationPackageController::class, 'edit']);
+        Route::put('/{id}', [DonationPackageController::class, 'update']);
+        Route::delete('/{id}', [DonationPackageController::class, 'destroy']);
     });
 });
 
