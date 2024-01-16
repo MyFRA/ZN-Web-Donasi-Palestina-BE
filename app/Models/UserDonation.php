@@ -10,6 +10,11 @@ class UserDonation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'amount', 'order_id', 'fullname', 'whatsapp_number', 'email', 'message', 'payment_method', 'platform_payment_method', 'status'
+        'amount', 'order_id', 'fullname', 'whatsapp_number', 'email', 'message', 'payment_method', 'platform_payment_method', 'status', 'available_donation_id'
     ];
+
+    public function availableDonation()
+    {
+        return $this->belongsTo(AvailableDonation::class, 'available_donation_id', 'id');
+    }
 }

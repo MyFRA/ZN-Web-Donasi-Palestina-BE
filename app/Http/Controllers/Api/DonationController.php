@@ -42,7 +42,8 @@ class DonationController extends Controller
             'message' => $request->message,
             'payment_method' => null,
             'platform_payment_method' => 'midtrans',
-            'status' => 'pending'
+            'status' => 'pending',
+            'available_donation_id' => $request->donation_id
         ]);
 
         \Midtrans\Config::$serverKey = 'SB-Mid-server-kSn45BmXwof5hFAYs866zJ9s';

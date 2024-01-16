@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_donations', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('available_donation_id');
             $table->uuid('order_id');
             $table->integer('amount');
             $table->string('fullname');
@@ -23,6 +24,8 @@ return new class extends Migration
             $table->string('platform_payment_method');
             $table->enum('status', ['pending', 'failed', 'success']);
             $table->timestamps();
+
+            $table->foreign('available_donation_id')->references('id')->on('available_donations');
         });
     }
 
