@@ -13,6 +13,7 @@ class ProductController extends Controller
         return response()->json([
             'data' => Product::get()->map(function (Product $product) {
                 $product->sales = 50;
+                $product->image = url('/storage/products/image/' . $product->image);
 
                 return $product;
             })
