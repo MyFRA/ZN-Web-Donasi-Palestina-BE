@@ -17,4 +17,9 @@ class DonationPackagesCollectedController extends Controller
 
         return view('panel.pages.donation-packages-collected.index', $data);
     }
+
+    public function update(Request $request)
+    {
+        dd('ok');
+    }
 }

@@ -3,6 +3,8 @@
 
 @include('panel.layouts.partials.head')
 
+@yield('styles')
+
 <body>
     <div class="wrapper">
         @include('panel.layouts.partials.sidebar')

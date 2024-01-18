@@ -3,10 +3,12 @@
 use App\Http\Controllers\Api\AvailableDonationController;
 use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\DonationController;
+use App\Http\Controllers\Api\PanelApiController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RecapDonationController;
 use App\Http\Controllers\Api\SettingCompanyController;
 use App\Http\Controllers\Api\ShippingController;
+use App\Http\Controllers\Api\WebDonationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,4 +54,12 @@ Route::prefix('recap-donation')->group(function () {
 
 Route::prefix('setting-company')->group(function () {
     Route::get('/', [SettingCompanyController::class, 'index']);
+});
+
+Route::prefix('web-donations')->group(function () {
+    Route::get('/', [WebDonationController::class, 'show']);
+});
+
+Route::prefix('panel-api')->group(function () {
+    Route::post('/temp-upload-image', [PanelApiController::class, 'tempUploadImage']);
 });

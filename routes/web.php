@@ -7,6 +7,7 @@ use App\Http\Controllers\Panel\DonationPackagesCollectedController;
 use App\Http\Controllers\Panel\ProductDonationController;
 use App\Http\Controllers\Panel\ProductDonationOrderCollectedController;
 use App\Http\Controllers\Panel\SettingController;
+use App\Http\Controllers\Panel\SettingWebDonationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +30,11 @@ Route::group([
     Route::prefix('/setting')->group(function () {
         Route::get('/', [SettingController::class, 'edit']);
         Route::put('/', [SettingController::class, 'update']);
+    });
+
+    Route::prefix('/setting-web-donation')->group(function () {
+        Route::get('/', [SettingWebDonationController::class, 'index']);
+        Route::put('/', [SettingWebDonationController::class, 'update']);
     });
 
     Route::prefix('/donation-packages')->group(function () {
