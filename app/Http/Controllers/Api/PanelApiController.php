@@ -20,7 +20,7 @@ class PanelApiController extends Controller
 
             // $request->file('upload')->move(public_path('media'), $fileName);
 
-            $url = url('/storage/media' . $fileName);
+            $url = url('/storage/media/' . $fileName);
             return response()->json(['fileName' => $fileName, 'uploaded' => 1, 'url' => $url]);
         }
     }
