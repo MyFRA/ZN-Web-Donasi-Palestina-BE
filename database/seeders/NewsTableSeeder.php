@@ -15,11 +15,10 @@ class NewsTableSeeder extends Seeder
     public function run(): void
     {
         News::create([
-            'slug' => Str::slug('PERANG BADAI AL-AQSA || Penyaluran Tahap 2'),
-            'title' => 'PERANG BADAI AL-AQSA || Penyaluran Tahap 2',
-            'subtitle' => 'Gaza, 10 & 11 Oktober 2023',
-            'content' => 'Alhamdulillah, Aman Palestin sudah mengirimkan bantuan untuk kondisi genting yang tengah dialami di Gaza. Bantuan sebesar $ 100.000 (Rp 1.500.000.000) sudah dikirim ke kantor perwakilan kami di Gaza dan akan di salurkan untuk para korban serangan dan agresi zionis secara bertahap.
-            Jazakumullah Khayran Katsiiran pada dermawan yang senantiasa berdiri tegak di barisan pembebas Palestina! Semoga menjadi Allah menerima sebagai amal ibadah dan Allah berikan balasan berlipat, Aamiin ya Rabbalalamiin'
+            'slug' => Str::slug('Potret Wajah Murung Anak-Anak Palestina Menahan Lapar'),
+            'title' => 'Potret Wajah Murung Anak-Anak Palestina Menahan Lapar',
+            'subtitle' => 'Sejumlah anak dan warga Palestina mengalami kelaparan akibat truk pengiriman bantuan terhambat bahkan dijarah. ',
+            'content' => '<p>&nbsp;</p><figure class="image"><img style="aspect-ratio:800/451;" src="http://localhost:8000/media/news_1705556730.jpeg" width="800" height="451"></figure><p>&nbsp;</p><p>Kelaparan telah menjadi salah satu masalah paling mendesak di antara berbagai masalah yang dihadapi ratusan ribu warga Palestina di Gaza yang terdispersi, dengan truk bantuan hanya mampu membawa sebagian kecil dari kebutuhan, dan distribusi yang tidak merata akibat kekacauan perang.</p>'
         ]);
     }
 }
