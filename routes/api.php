@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AvailableDonationController;
 use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\DonationController;
+use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\PanelApiController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RecapDonationController;
@@ -29,6 +30,11 @@ Route::prefix('/donate')->group(function () {
 
 Route::prefix('/available-donations')->group(function () {
     Route::get('/', [AvailableDonationController::class, 'index']);
+});
+
+Route::prefix('/news')->group(function () {
+    Route::get('/', [NewsController::class, 'index']);
+    Route::get('/{id}', [NewsController::class, 'show']);
 });
 
 Route::prefix('/products')->group(function () {

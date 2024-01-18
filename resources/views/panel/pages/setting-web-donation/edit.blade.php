@@ -97,7 +97,7 @@
             })
             .then((newEditor) => {
                 window.editor = newEditor
-                window.editor.setData(`{!! $setting->description !!}`)
+                window.editor.setData(`{!! old('description') ? old('description') : $setting->description !!}`)
             })
             .catch(error => {
                 console.error(error);

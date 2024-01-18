@@ -12,7 +12,7 @@
                         <div class="card-body">
                             <div class="form-group mb-3">
                                 <label for="short_description">Nama Paket</label>
-                                <input type="text" name="short_description" class="form-control @error('short_description') is-invalid @enderror" id="short_description" placeholder="Nama Paket" short_description="{{ old('short_description') }}">
+                                <input type="text" name="short_description" class="form-control @error('short_description') is-invalid @enderror" id="short_description" placeholder="Nama Paket" value="{{ old('short_description') }}">
 
                                 @error('short_description')
                                     <div class="invalid-feedback">

@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Panel\DashboardController;
 use App\Http\Controllers\Panel\DonationPackageController;
 use App\Http\Controllers\Panel\DonationPackagesCollectedController;
+use App\Http\Controllers\Panel\NewsController;
 use App\Http\Controllers\Panel\ProductDonationController;
 use App\Http\Controllers\Panel\ProductDonationOrderCollectedController;
 use App\Http\Controllers\Panel\SettingController;
@@ -26,6 +27,15 @@ Route::group([
     'middleware' => ['auth']
 ], function () {
     Route::get('/', [DashboardController::class, 'index']);
+
+    Route::prefix('/news')->group(function () {
+        Route::get('/', [NewsController::class, 'index']);
+        Route::get('/create', [NewsController::class, 'create']);
+        Route::post('/', [NewsController::class, 'store']);
+        Route::get('/{id}/edit', [NewsController::class, 'edit']);
+        Route::put('/{id}', [NewsController::class, 'update']);
+        Route::delete('/{id}', [NewsController::class, 'destroy']);
+    });
 
     Route::prefix('/setting')->group(function () {
         Route::get('/', [SettingController::class, 'edit']);
