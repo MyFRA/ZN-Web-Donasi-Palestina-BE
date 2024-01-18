@@ -16,7 +16,7 @@ class PanelApiController extends Controller
             $extension = $request->file('upload')->getClientOriginalExtension();
             $fileName = $fileName . '_' . time() . '.' . $extension;
 
-            Storage::putFileAs('media', $request->file('file'), $fileName);
+            Storage::putFileAs('media', $request->file('upload'), $fileName);
 
             // $request->file('upload')->move(public_path('media'), $fileName);
 
