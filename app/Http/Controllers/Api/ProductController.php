@@ -23,6 +23,7 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
+        $product->image = url('/storage/products/image/' . $product->image);
 
         return response()->json([
             'data' => $product

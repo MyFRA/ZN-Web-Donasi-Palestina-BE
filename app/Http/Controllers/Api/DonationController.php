@@ -46,7 +46,7 @@ class DonationController extends Controller
             'available_donation_id' => $request->donation_id
         ]);
 
-        \Midtrans\Config::$serverKey = 'SB-Mid-server-kSn45BmXwof5hFAYs866zJ9s';
+        \Midtrans\Config::$serverKey = config('app.MIDTRANS_SERVER_KEY');
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
         \Midtrans\Config::$isProduction = false;
         // Set sanitization on (default)
@@ -59,10 +59,26 @@ class DonationController extends Controller
         $params = [
             'transaction_details' => [
                 'order_id' => $orderId,
-                'gross_amount' => intval($request->amount + $midtrans_admin_fee),
+                'gross_amount' => intval(($donationObj->value == 'lainnya' ? intval($request->custom_value) : $donationObj->value) + $midtrans_admin_fee),
+            ],
+            'item_details' => [
+                [
+                    'id' => 1,
+                    'price' => $donationObj->value == 'lainnya' ? $request->custom_value : $donationObj->value,
+                    'quantity' => 1,
+                    'name' => $donationObj->short_description
+                ],
+                [
+                    'id' => 2,
+                    'price' => $midtrans_admin_fee,
+                    'quantity' => 1,
+                    'name' => 'Biaya Admin Bank'
+                ]
             ],
             'customer_details' => [
-                'username' => $userDonation->fullname,
+                'first_name' => $request->is_fullname_hidden ? 'Dermawan' : $request->fullname,
+                'phone' => $request->whatsapp_number,
+                'email' => $request->email
             ],
         ];
 

@@ -127,6 +127,7 @@ return [
     'cipher' => 'AES-256-CBC',
 
     'RAJAONGKIR_API_KEY' => env('RAJAONGKIR_API_KEY'),
+    'MIDTRANS_SERVER_KEY' => env('MIDTRANS_SERVER_KEY'),
 
     /*
     |--------------------------------------------------------------------------

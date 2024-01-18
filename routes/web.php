@@ -71,6 +71,7 @@ Route::group([
 
     Route::prefix('/product-donation-orders-collected')->group(function () {
         Route::get('/', [ProductDonationOrderCollectedController::class, 'index']);
+        Route::put('/{id}/shipped', [ProductDonationOrderCollectedController::class, 'updateToShipped']);
     });
 });
 

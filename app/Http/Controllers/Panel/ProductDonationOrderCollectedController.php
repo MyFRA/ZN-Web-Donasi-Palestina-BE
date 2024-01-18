@@ -17,4 +17,14 @@ class ProductDonationOrderCollectedController extends Controller
 
         return view('panel.pages.product-donation-orders-collected.index', $data);
     }
+
+    public function updateToShipped($id)
+    {
+        $productDonation = ProductDonationOrder::find($id);
+        $productDonation->update([
+            'shipment_status' => 'Product Shipped'
+        ]);
+
+        return back()->with('success', 'Produk order telah diupdate ke dikirim');
+    }
 }

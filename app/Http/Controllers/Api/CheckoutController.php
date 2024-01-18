@@ -42,7 +42,8 @@ class CheckoutController extends Controller
             'email' => $request->email,
             'message' => $request->message,
             'platform_payment_method' => 'midtrans',
-            'total' => $request->courier_cost_value + collect($request->products)->reduce(function ($carry, $curr) {
+            'payment_status' => 'pending',
+            'total' => collect($request->products)->reduce(function ($carry, $curr) {
                 $product = Product::find($curr['id']);
 
                 return $carry += $product->price * $curr['qty'];
@@ -62,7 +63,7 @@ class CheckoutController extends Controller
             ]);
         }
 
-        \Midtrans\Config::$serverKey = 'SB-Mid-server-kSn45BmXwof5hFAYs866zJ9s';
+        \Midtrans\Config::$serverKey = config('app.MIDTRANS_SERVER_KEY');
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
         \Midtrans\Config::$isProduction = false;
         // Set sanitization on (default)
@@ -72,13 +73,32 @@ class CheckoutController extends Controller
 
         $orderId = $productDonationOrder->order_id;
 
+        $itemDetails = $productDonationOrder->productOrders->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'price' => $item->price,
+                'quantity' => $item->qty,
+                'name' => $item->product->name
+            ];
+        })->toArray();
+
+        $itemDetails[] = [
+            'id' => Str::random(),
+            'price' => $request->courier_cost_value,
+            'quantity' => 1,
+            'name' => 'Ongkos Kirim'
+        ];
+
         $params = [
+            'item_details' => $itemDetails,
             'transaction_details' => [
                 'order_id' => $orderId,
-                'gross_amount' => intval($productDonationOrder->total + $midtrans_admin_fee),
+                'gross_amount' => intval($productDonationOrder->total + $midtrans_admin_fee + $request->courier_cost_value),
             ],
             'customer_details' => [
-                'username' => $productDonationOrder->full_name,
+                'first_name' => $productDonationOrder->full_name,
+                'phone' => $request->whatsapp_number,
+                'email' => $request->email
             ],
         ];
 

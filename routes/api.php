@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AvailableDonationController;
 use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\DonationController;
 use App\Http\Controllers\Api\NewsController;
+use App\Http\Controllers\Api\NotificationMidtransController;
 use App\Http\Controllers\Api\PanelApiController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RecapDonationController;
@@ -69,3 +70,5 @@ Route::prefix('web-donations')->group(function () {
 Route::prefix('panel-api')->group(function () {
     Route::post('/temp-upload-image', [PanelApiController::class, 'tempUploadImage']);
 });
+
+Route::post('/notification-midtrans', [NotificationMidtransController::class, 'notification']);

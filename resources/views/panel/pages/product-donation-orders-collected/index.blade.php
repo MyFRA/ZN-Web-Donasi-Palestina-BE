@@ -30,6 +30,13 @@
             </div>
         </div>
 
+        @if (Session::get('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Berhasil!</strong> {{ Session::get('success') }}.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="row mt-3">
             <div class="col">
                 <div class="card">
@@ -42,6 +49,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>Tanggal</th>
                                         <th>Nama Lengkap</th>
                                         <th>Alamat Pengiriman</th>
                                         <th>Kurir</th>
@@ -50,12 +58,14 @@
                                         <th>Produk Dibeli</th>
                                         <th>Ongkir</th>
                                         <th>Produk Dibeli + Ongkir</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($donations as $key => $donation)
                                         <tr>
                                             <td>{{ $donations->firstItem() + $loop->index }}</td>
+                                            <td>{{ $donation->created_at }}</td>
                                             <td>{{ $donation->full_name }}</td>
                                             <td>
                                                 <!-- Modal -->
@@ -203,6 +213,8 @@
                                             <td>
                                                 @if ($donation->shipment_status == 'Payment Received')
                                                     <span class="badge bg-warning text-dark">{{ $donation->shipment_status }}</span>
+                                                @else
+                                                    <span class="badge bg-success text-light">{{ $donation->shipment_status }}</span>
                                                 @endif
                                             </td>
                                             <td>
@@ -218,6 +230,15 @@
                                             </td>
                                             <td><b>Rp{{ number_format($donation->courier_cost_value, 0, '.', '.') }}</b></td>
                                             <td class="text-center"><b>Rp{{ number_format($donation->total + $donation->courier_cost_value, 0, '.', '.') }}</b></td>
+                                            <td>
+                                                @if ($donation->shipment_status == 'Payment Received')
+                                                    <form action="{{ url('/panel/product-donation-orders-collected/' . $donation->id . '/shipped') }}" method="post" onsubmit="confirm('Apakah anda yakin?')">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn btn-success"><i class="zmdi zmdi-truck"></i> Kirim</button>
+                                                    </form>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
