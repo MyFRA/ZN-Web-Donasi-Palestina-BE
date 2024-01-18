@@ -24,7 +24,7 @@ class NotificationMidtransController extends Controller
             $productDonationOrder = ProductDonationOrder::where('order_id', $order_id)->first();
             $userDonation = UserDonation::where('order_id', $order_id)->first();
 
-            $hashed = hash('sha512', $order_id . $status_code . $gross_amount . 'SB-Mid-server-kSn45BmXwof5hFAYs866zJ9s');
+            $hashed = hash('sha512', $order_id . $status_code . $gross_amount . config('app.MIDTRANS_SERVER_KEY'));
 
             if ($hashed == $signature_key && $transaction_status == 'settlement') {
 
