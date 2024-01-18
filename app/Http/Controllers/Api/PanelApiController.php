@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PanelApiController extends Controller
 {
@@ -15,7 +16,9 @@ class PanelApiController extends Controller
             $extension = $request->file('upload')->getClientOriginalExtension();
             $fileName = $fileName . '_' . time() . '.' . $extension;
 
-            $request->file('upload')->move(public_path('media'), $fileName);
+            Storage::putFileAs('media', $request->file('file'), $fileName);
+
+            // $request->file('upload')->move(public_path('media'), $fileName);
 
             $url = asset('media/' . $fileName);
             return response()->json(['fileName' => $fileName, 'uploaded' => 1, 'url' => $url]);
