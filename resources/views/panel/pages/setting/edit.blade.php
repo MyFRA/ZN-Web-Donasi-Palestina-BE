@@ -54,6 +54,39 @@
                                             </div>
                                         @enderror
                                     </div>
+                                    <div class="form-group">
+                                        <h4 style="font-weight: 600">Informasi Perusahaan</h4>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="company_email">Email</label>
+                                        <input type="text" class="form-control @error('company_email') is-invalid @enderror" name="company_email" id="company_email" placeholder="Email" value="{{ old('company_email') ? old('company_email') : $setting->company_email }}">
+
+                                        @error('company_email')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="company_phone_number">Nomor Telepon</label>
+                                        <input type="text" class="form-control @error('company_phone_number') is-invalid @enderror" name="company_phone_number" id="company_phone_number" placeholder="Nomor Telepon" value="{{ old('company_phone_number') ? old('company_phone_number') : $setting->company_phone_number }}">
+
+                                        @error('company_phone_number')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="company_address">Alamat</label>
+                                        <textarea name="company_address" id="company_address" class="form-control @error('company_address') is-invalid @enderror" style="height: 120px" placeholder="Alamat" cols="30" rows="10">{{ old('company_address') ? old('company_address') : $setting->company_address }}</textarea>
+
+                                        @error('company_address')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">

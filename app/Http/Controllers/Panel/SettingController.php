@@ -58,6 +58,9 @@ class SettingController extends Controller
             'shipping_city' => $shipping_city,
             'shipping_city_id' => $request->shipping_city_id,
             'additional_shipping_fee' => $request->additional_shipping_fee,
+            'company_email' => $request->company_email,
+            'company_phone_number' => $request->company_phone_number,
+            'company_address' => $request->company_address,
         ]);
 
         return back()->with('success', 'Pengaturan Perusahaan telah diupdate');

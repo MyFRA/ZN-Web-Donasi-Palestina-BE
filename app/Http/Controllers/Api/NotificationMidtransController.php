@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\EmailNotificationUserDonation;
 use App\Models\DonationRecap;
 use App\Models\ProductDonationOrder;
 use App\Models\UserDonation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class NotificationMidtransController extends Controller
 {
@@ -66,12 +68,16 @@ class NotificationMidtransController extends Controller
                                 'message' => $userDonation->message
                             ]);
                         }
+                        if ($userDonation->email) {
+                            Mail::to($userDonation->email)->send(new EmailNotificationUserDonation($userDonation));
+                        }
                     }
                 }
             }
 
             return response('Ok', 200)->header('Content-Type', 'text/plain');
         } catch (\Exception $e) {
+            dd($e);
             return response('Error', 404)->header('Content-Type', 'text/plain');
         }
     }
