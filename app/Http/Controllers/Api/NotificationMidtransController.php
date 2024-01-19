@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Mail\EmailNotificationUserDonation;
+use App\Mail\EmailNotificationUserProductDonationOrder;
 use App\Models\DonationRecap;
 use App\Models\ProductDonationOrder;
 use App\Models\UserDonation;
@@ -51,6 +52,12 @@ class NotificationMidtransController extends Controller
                                 'message' => $productDonationOrder->message
                             ]);
                         }
+
+                        try {
+                            Mail::to($productDonationOrder->email)->send(new EmailNotificationUserProductDonationOrder($productDonationOrder));
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                        }
                     }
 
                     if ($userDonation) {
@@ -68,8 +75,13 @@ class NotificationMidtransController extends Controller
                                 'message' => $userDonation->message
                             ]);
                         }
+
                         if ($userDonation->email) {
-                            Mail::to($userDonation->email)->send(new EmailNotificationUserDonation($userDonation));
+                            try {
+                                Mail::to($userDonation->email)->send(new EmailNotificationUserDonation($userDonation));
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                            }
                         }
                     }
                 }
