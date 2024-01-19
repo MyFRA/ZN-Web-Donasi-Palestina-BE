@@ -145,7 +145,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td align="left">
-                                                        <img src="{{ false ? url('/storage/settings/company-logo/' . $setting->company_logo) : 'https://kalasahan-admin.matursoft.com/storage/settings/company-logo/company-logo-AFPO-979820.png' }}" width="100" height="100" alt="logo" border="0" />
+                                                        <img src="{{ url('/storage/settings/company-logo/' . $setting->company_logo) }}" width="100" height="100" alt="logo" border="0" />
                                                     </td>
                                                 </tr>
                                                 <tr class="hiddenMobile">
