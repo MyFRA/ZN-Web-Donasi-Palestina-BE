@@ -34,7 +34,8 @@ class ProductDonationOrder extends Model
         'platform_payment_method',
         'payment_status',
         'total',
-        'postal_code'
+        'postal_code',
+        'resi_code'
     ];
 
     public function productOrders()

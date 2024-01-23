@@ -155,6 +155,11 @@
                                                                             <th>:</th>
                                                                             <td>{{ $donation->courier_cost_value }}</td>
                                                                         </tr>
+                                                                        <tr>
+                                                                            <th>Nomor Resi</th>
+                                                                            <th>:</th>
+                                                                            <td>{{ $donation->resi_code }}</td>
+                                                                        </tr>
                                                                     </table>
                                                                 </div>
                                                             </div>
@@ -232,11 +237,37 @@
                                             <td class="text-center"><b>Rp{{ number_format($donation->total + $donation->courier_cost_value, 0, '.', '.') }}</b></td>
                                             <td>
                                                 @if ($donation->shipment_status == 'Payment Received')
-                                                    <form action="{{ url('/panel/product-donation-orders-collected/' . $donation->id . '/shipped') }}" method="post" onsubmit="confirm('Apakah anda yakin?')">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <button type="submit" class="btn btn-success"><i class="zmdi zmdi-truck"></i> Kirim</button>
-                                                    </form>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="modalSend{{ $donation->id }}" tabindex="-1" aria-labelledby="modalSend{{ $donation->id }}Label" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <form action="{{ url('/panel/product-donation-orders-collected/' . $donation->id . '/shipped') }}" method="post">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="modalSend{{ $donation->id }}Label">Konfirmasi Pengiriman</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        @csrf
+                                                                        @method('PUT')
+
+                                                                        <div class="form-group">
+                                                                            <label class="mb-1" for="resi_code{{ $donation->id }}">Nomor Resi</label>
+                                                                            <input type="text" name="resi_code" class="form-control" placeholder="Nomor Resi" required id="resi_code{{ $donation->id }}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                                        <button type="submit" class="btn btn-primary">Kirim</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSend{{ $donation->id }}">
+                                                        <i class="zmdi zmdi-truck"></i> Kirim
+                                                    </button>
                                                 @endif
                                             </td>
                                         </tr>
