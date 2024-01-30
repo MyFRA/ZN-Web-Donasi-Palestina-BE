@@ -23,11 +23,11 @@ class DonationController extends Controller
 
         $donationObj = AvailableDonation::find($request->donation_id);
 
-        if ($donationObj->value == 'lainnya' && (!$request->custom_value || !intval($request->custom_value) || intval($request->custom_value) < 50000)) {
+        if ($donationObj->value == 'lainnya' && (!$request->custom_value || !intval($request->custom_value) || intval($request->custom_value) < 100000)) {
             return response()->json([
                 "code" => 422,
                 "msg" => "Error Validations",
-                "error" => "Jumlah custom harus minimal Rp 50 rb"
+                "error" => "Jumlah custom harus minimal Rp 100 rb"
             ], 422);
         }
 
