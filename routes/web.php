@@ -45,6 +45,8 @@ Route::group([
     Route::prefix('/setting-web-donation')->group(function () {
         Route::get('/', [SettingWebDonationController::class, 'index']);
         Route::put('/', [SettingWebDonationController::class, 'update']);
+        Route::post('/thumbnail', [SettingWebDonationController::class, 'addThumbnail']);
+        Route::delete('/thumbnail/{id}', [SettingWebDonationController::class, 'deleteThumbnail']);
     });
 
     Route::prefix('/donation-packages')->group(function () {

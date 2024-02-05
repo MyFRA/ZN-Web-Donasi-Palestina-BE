@@ -19,29 +19,88 @@
             </div>
         @endif
 
+        @if (count($errors) > 0)
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul class="p-0 m-0" style="list-style: none;">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalAddThumbnail" tabindex="-1" aria-labelledby="modalAddThumbnailLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalAddThumbnailLabel">Tambah Thumbnail</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ url('/panel/setting-web-donation/thumbnail') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-body">
+                            <img src="{{ asset('/no-image.jpg') }}" alt="" width="100px" id="image-preview">
+                            <br>
+                            <br>
+                            <div class="form-group">
+                                <label for="thumbnail">Thumbnail</label>
+                                <input type="file" name="thumbnail" id="thumbnail" class="form-control" required accept="image/*" onchange="setImagePreview(this)">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="row mt-4">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Thumbnail</h3>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalAddThumbnail">Tambah Thumbnail</button>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Thumbnail</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($thumbnails as $index => $thumbnail)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td><img src="{{ url('/storage/setting-web-donation-has-thumbnails/thumbnail/' . $thumbnail->thumbnail) }}" class="rounded" width="150px" alt=""></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-danger" onclick="onDelete(this)" data-url="{{ url('/panel/setting-web-donation/thumbnail/' . $thumbnail->id) }}" type="button" onclick="">Hapus</button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-lg-6">
                 <form action="{{ url('/panel/setting-web-donation') }}" id="form-submit" method="POST" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
                     <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Konten</h3>
+                        </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <div class="form-group">
-                                        <h4 style="font-weight: 600">Web Donasi</h4>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <img src="{{ url('/storage/setting-web-donations/thumbnail/' . $setting->thumbnail) }}" width="300px" alt="" id="image-preview"><br>
-                                        <label for="thumbnail">Banner</label>
-                                        <input type="file" accept="image/*" name="thumbnail" class="form-control @error('thumbnail') is-invalid @enderror" id="thumbnail" onchange="setImagePreview(this)">
-
-                                        @error('thumbnail')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
                                     <div class="form-group mb-3">
                                         <label for="title">Judul <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title" placeholder="Judul" value="{{ old('title') ? old('title') : $setting->title }}">
