@@ -128,6 +128,7 @@ return [
 
     'RAJAONGKIR_API_KEY' => env('RAJAONGKIR_API_KEY'),
     'MIDTRANS_SERVER_KEY' => env('MIDTRANS_SERVER_KEY'),
+    'ENGINE_URL' => env('ENGINE_URL'),
 
     /*
     |--------------------------------------------------------------------------

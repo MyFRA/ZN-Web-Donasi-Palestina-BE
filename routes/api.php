@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RecapDonationController;
 use App\Http\Controllers\Api\SettingCompanyController;
 use App\Http\Controllers\Api\ShippingController;
+use App\Http\Controllers\Api\Temp\TestWaController;
 use App\Http\Controllers\Api\WebDonationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -72,3 +73,4 @@ Route::prefix('panel-api')->group(function () {
 });
 
 Route::post('/notification-midtrans', [NotificationMidtransController::class, 'notification']);
+Route::post('/test-wa', [TestWaController::class, 'testWa']);

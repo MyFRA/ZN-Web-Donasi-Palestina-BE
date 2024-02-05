@@ -7,8 +7,10 @@ use App\Mail\EmailNotificationUserDonation;
 use App\Mail\EmailNotificationUserProductDonationOrder;
 use App\Models\DonationRecap;
 use App\Models\ProductDonationOrder;
+use App\Models\Setting;
 use App\Models\UserDonation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 
 class NotificationMidtransController extends Controller
@@ -16,6 +18,7 @@ class NotificationMidtransController extends Controller
     public function notification(Request $req)
     {
         try {
+            $setting = Setting::first();
             $notification_body = json_decode($req->getContent(), true);
 
             $order_id = $notification_body['order_id'];
@@ -58,6 +61,18 @@ class NotificationMidtransController extends Controller
                         } catch (\Throwable $th) {
                             //throw $th;
                         }
+
+                        try {
+                            if ($userDonation->whatsapp_number) {
+                                Http::post(config('app.ENGINE_URL') . '/send-message', [
+                                    'session' => 'myfra',
+                                    'to' => $userDonation->whatsapp_number,
+                                    'text' => "Halo " . $userDonation->fullname . ",\n\nDonasi Anda untuk Kalasahan membawa sinar kehidupan baru bagi anak-anak di Palestina. Terima kasih telah menjadi bagian dari perubahan positif. Semoga kebaikan Anda kembali berkali-kali lipat.\n\nBerikut adalah detail donasi kamu:\n\nNama : " . $userDonation->fullname . "\n\nEmail : " . $userDonation->email . "\n\nNomor Whatsapp : " . $userDonation->whatsapp_number . "\n\nDonasi : " . "Produk Donasi" . "\n\nNominal Donasi : Rp" . number_format($userDonation->amount, 0, '.', '.') . "\n\nSalam Hangat " . $setting->company_name . ".\n\n Terima kasih!"
+                                ]);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                        }
                     }
 
                     if ($userDonation) {
@@ -79,6 +94,18 @@ class NotificationMidtransController extends Controller
                         if ($userDonation->email) {
                             try {
                                 Mail::to($userDonation->email)->send(new EmailNotificationUserDonation($userDonation));
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                            }
+
+                            try {
+                                if ($userDonation->whatsapp_number) {
+                                    Http::post(config('app.ENGINE_URL') . '/send-message', [
+                                        'session' => 'myfra',
+                                        'to' => $userDonation->whatsapp_number,
+                                        'text' => "Halo " . $userDonation->fullname . ",\n\nDonasi Anda untuk Kalasahan membawa sinar kehidupan baru bagi anak-anak di Palestina. Terima kasih telah menjadi bagian dari perubahan positif. Semoga kebaikan Anda kembali berkali-kali lipat.\n\nBerikut adalah detail donasi kamu:\n\nNama : " . $userDonation->fullname . "\n\nEmail : " . $userDonation->email . "\n\nNomor Whatsapp : " . $userDonation->whatsapp_number . "\n\nPaket Donasi : " . $userDonation->availableDonation->short_description . "\n\nNominal Donasi : Rp" . number_format($userDonation->amount, 0, '.', '.') . "\n\nSalam Hangat " . $setting->company_name . ".\n\n Terima kasih!"
+                                    ]);
+                                }
                             } catch (\Throwable $th) {
                                 //throw $th;
                             }
