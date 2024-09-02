@@ -24,7 +24,8 @@ class UpdateRequest extends FormRequest
         return [
             'title' => 'required|string',
             'thumbnail' => 'nullable|mimes:jpg,jpeg,png',
-            'description' => 'required|string'
+            'description' => 'required|string',
+            'donation_target' => 'required|numeric'
         ];
     }
 }

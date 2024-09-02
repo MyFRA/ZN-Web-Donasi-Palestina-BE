@@ -312,7 +312,7 @@
                                             <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e;  line-height:
                   18px;  vertical-align: top; padding:10px 0;">Rp{{ number_format($userDonation->amount, 0, '.', '.') }}</td>
                                             <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e;  line-height:
-                  18px;  vertical-align: top; padding:10px 0; text-align: center;" align="center">1</td>
+                  18px;  vertical-align: top; padding:10px 0; text-align: center;" align="center">{{ $userDonation->amount_package }}</td>
                                             <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #1e2b33;  line-height:
                   18px;  vertical-align: top; padding:10px 0;" align="right"><strong>Rp{{ number_format($userDonation->amount, 0, '.', '.') }}</strong></td>
                                         </tr>

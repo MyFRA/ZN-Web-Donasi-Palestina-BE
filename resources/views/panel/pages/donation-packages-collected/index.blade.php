@@ -43,12 +43,12 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Paket Donasi</th>
+                                        <th>Jumlah</th>
                                         <th>Nominal</th>
                                         <th>Nama Lengkap</th>
                                         <th>Nomor Whatsapp</th>
                                         <th>Email</th>
-                                        <th>Metode Pembayaran</th>
-                                        <th>Platform Metode Pembayaran</th>
+                                        <th>Tanggal</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -56,12 +56,12 @@
                                         <tr>
                                             <td>{{ $donations->firstItem() + $loop->index }}</td>
                                             <td><b>{{ $donation->availableDonation->short_description }}</b></td>
+                                            <td><b>{{ $donation->availableDonation->value == 'lainnya' ? '-' : 'Rp' . number_format($donation->package_item_price, 0, '.', '.') . ' x ' . $donation->amount_package }}</b></td>
                                             <td><b>Rp{{ number_format($donation->amount, 0, '.', '.') }}</b></td>
                                             <td>{{ $donation->fullname }}</td>
                                             <td>{{ $donation->whatsapp_number }}</td>
                                             <td>{{ $donation->email }}</td>
-                                            <td>{{ $donation->payment_method }}</td>
-                                            <td>{{ $donation->platform_payment_method }}</td>
+                                            <td>{{ $donation->created_at }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

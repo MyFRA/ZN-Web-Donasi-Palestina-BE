@@ -28,7 +28,8 @@ class SettingWebDonationController extends Controller
 
         $settingWebDonation->update([
             'title' => $request->title,
-            'description' => $request->description
+            'description' => $request->description,
+            'donation_target' => $request->donation_target,
         ]);
 
         return back()->with('success', 'Setting Web Donasi, telah diupdate');

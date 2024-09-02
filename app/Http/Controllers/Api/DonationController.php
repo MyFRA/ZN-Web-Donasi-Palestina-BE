@@ -35,7 +35,8 @@ class DonationController extends Controller
 
         $userDonation = UserDonation::create([
             'order_id' => Str::uuid(),
-            'amount' => $donationObj->value == 'lainnya' ? intval($request->custom_value) : $donationObj->value,
+            'package_item_price' => $donationObj->value == 'lainnya' ? intval($request->custom_value) : $donationObj->value,
+            'amount' => $donationObj->value == 'lainnya' ? intval($request->custom_value) : $donationObj->value * $request->amount_package,
             'fullname' => $request->is_fullname_hidden ? 'Dermawan' : $request->fullname,
             'whatsapp_number' => $request->whatsapp_number,
             'email' => $request->email,
@@ -43,12 +44,13 @@ class DonationController extends Controller
             'payment_method' => null,
             'platform_payment_method' => 'midtrans',
             'status' => 'pending',
-            'available_donation_id' => $request->donation_id
+            'available_donation_id' => $request->donation_id,
+            'amount_package' => $request->amount_package
         ]);
 
         \Midtrans\Config::$serverKey = config('app.MIDTRANS_SERVER_KEY');
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
+        \Midtrans\Config::$isProduction = true;
         // Set sanitization on (default)
         \Midtrans\Config::$isSanitized = true;
         // Set 3DS transaction for credit card to true
@@ -59,12 +61,12 @@ class DonationController extends Controller
         $params = [
             'transaction_details' => [
                 'order_id' => $orderId,
-                'gross_amount' => intval(($donationObj->value == 'lainnya' ? intval($request->custom_value) : $donationObj->value) + $midtrans_admin_fee),
+                'gross_amount' => intval(($donationObj->value == 'lainnya' ? intval($request->custom_value) : $donationObj->value * $userDonation->amount_package) + $midtrans_admin_fee),
             ],
             'item_details' => [
                 [
                     'id' => 1,
-                    'price' => $donationObj->value == 'lainnya' ? $request->custom_value : $donationObj->value,
+                    'price' => $donationObj->value == 'lainnya' ? $request->custom_value : $donationObj->value * $userDonation->amount_package,
                     'quantity' => 1,
                     'name' => $donationObj->short_description
                 ],

@@ -102,6 +102,16 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group mb-3">
+                                        <label for="target_donation">Target Donasi <span class="text-danger">*</span></label>
+                                        <input type="number" name="donation_target" id="donation_target" class="form-control @error('donation_target') is-invalid @enderror" placeholder="Target Donasi" value="{{ old('donation_target') ? old('donation_target') : $setting->donation_target }}">
+
+                                        @error('donation_target')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group mb-3">
                                         <label for="title">Judul <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title" placeholder="Judul" value="{{ old('title') ? old('title') : $setting->title }}">
 

@@ -59,7 +59,7 @@ class NotificationMidtransController extends Controller
                         try {
                             Mail::to($productDonationOrder->email)->send(new EmailNotificationUserProductDonationOrder($productDonationOrder));
                         } catch (\Throwable $th) {
-                            //throw $th;
+                            dd($th);
                         }
 
                         try {
@@ -71,7 +71,7 @@ class NotificationMidtransController extends Controller
                                 ]);
                             }
                         } catch (\Throwable $th) {
-                            //throw $th;
+                            dd($th);
                         }
                     }
 
@@ -95,7 +95,7 @@ class NotificationMidtransController extends Controller
                             try {
                                 Mail::to($userDonation->email)->send(new EmailNotificationUserDonation($userDonation));
                             } catch (\Throwable $th) {
-                                //throw $th;
+                                dd($th);
                             }
 
                             try {
@@ -107,7 +107,7 @@ class NotificationMidtransController extends Controller
                                     ]);
                                 }
                             } catch (\Throwable $th) {
-                                //throw $th;
+                                dd($th);
                             }
                         }
                     }

@@ -225,7 +225,7 @@
                                             <td>
                                                 <ul>
                                                     @foreach ($donation->productOrders as $productOrder)
-                                                        <li>{{ $productOrder->product->name }}: Rp{{ number_format($productOrder->price, 0, '.', '.') }} * {{ $productOrder->qty }}</li>
+                                                        <li>{{ $productOrder->product->name }}: Rp{{ number_format($productOrder->price, 0, '.', '.') }} x {{ $productOrder->qty }}</li>
                                                     @endforeach
                                                 </ul>
 

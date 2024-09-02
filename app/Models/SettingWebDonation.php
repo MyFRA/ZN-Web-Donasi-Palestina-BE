@@ -10,6 +10,9 @@ class SettingWebDonation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'thumbnail', 'description'
+        'title',
+        'thumbnail',
+        'description',
+        'donation_target'
     ];
 }

@@ -26,7 +26,8 @@ class RequestDonateRequest extends FormRequest
     {
         return [
             'donation_id' => 'required|exists:available_donations,id',
-            'is_fullname_hidden' => 'required|boolean'
+            'is_fullname_hidden' => 'required|boolean',
+            'amount_package' => 'required|integer'
         ];
     }
 
