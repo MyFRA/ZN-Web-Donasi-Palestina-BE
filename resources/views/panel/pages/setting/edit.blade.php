@@ -13,7 +13,7 @@
 
         <div class="row mt-4">
             <div class="col">
-                <form action="{{ url('/panel/setting') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ url('/panel/setting') }}" method="POST" enctype="multipart/form-data" onsubmit="doSubmit()">
                     @method('PUT')
                     @csrf
                     <div class="card">
@@ -46,7 +46,8 @@
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="company_description">Deskripsi <span class="text-danger">*</span></label>
-                                        <textarea name="company_description" id="company_description" class="form-control @error('company_description') is-invalid @enderror" style="height: 120px" placeholder="Deskripsi" cols="30" rows="10">{{ old('company_description') ? old('company_description') : $setting->company_description }}</textarea>
+                                        <div id="company_description"></div>
+                                        <input type="hidden" name="company_description" id="hidden-company_description">
 
                                         @error('company_description')
                                             <div class="invalid-feedback">
@@ -152,13 +153,44 @@
     </div>
 @endsection
 
+@section('styles')
+    <style>
+        .ck-editor__editable {
+            min-height: 150px;
+        }
+    </style>
+@endsection
+
 @section('scripts')
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
+    <script>
+        window.editor;
+
+        ClassicEditor
+            .create(document.querySelector('#company_description'))
+            .then((newEditor) => {
+                window.editor = newEditor
+                window.editor.setData(`{!! old('company_description') ? old('company_description') : $setting->company_description !!}`)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
     <script>
         function setImagePreview(elem) {
             if (elem.files.length > 0) {
                 const imagePreviewElement = document.getElementById('image-preview')
                 imagePreviewElement.setAttribute('src', URL.createObjectURL(elem.files[0]))
             }
+        }
+    </script>
+    <script>
+        function doSubmit() {
+            const formSubmitElement = document.getElementById('form-submit');
+
+            document.getElementById('hidden-company_description').setAttribute('value', window.editor.getData())
+
+            formSubmitElement.submit();
         }
     </script>
 @endsection
