@@ -18,7 +18,9 @@ class DatabaseSeeder extends Seeder
             SettingsTableSeeder::class,
             ProductsTableSeeder::class,
             DonationRecapsTableSeeder::class,
-            NewsTableSeeder::class
+            NewsTableSeeder::class,
+            SettingsTableSeeder::class,
+            SettingWebDonationsTableSeeder::class
         ]);
     }
 }
