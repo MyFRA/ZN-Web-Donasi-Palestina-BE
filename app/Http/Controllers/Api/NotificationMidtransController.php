@@ -59,7 +59,6 @@ class NotificationMidtransController extends Controller
                         try {
                             Mail::to($productDonationOrder->email)->send(new EmailNotificationUserProductDonationOrder($productDonationOrder));
                         } catch (\Throwable $th) {
-                            dd($th);
                         }
 
                         try {
@@ -67,11 +66,10 @@ class NotificationMidtransController extends Controller
                                 Http::post(config('app.ENGINE_URL') . '/send-message', [
                                     'session' => 'myfra',
                                     'to' => $userDonation->whatsapp_number,
-                                    'text' => "Halo " . $userDonation->fullname . ",\n\nDonasi Anda untuk Kalasahan membawa sinar kehidupan baru bagi anak-anak di Palestina. Terima kasih telah menjadi bagian dari perubahan positif. Semoga kebaikan Anda kembali berkali-kali lipat.\n\nBerikut adalah detail donasi kamu:\n\nNama : " . $userDonation->fullname . "\n\nEmail : " . $userDonation->email . "\n\nNomor Whatsapp : " . $userDonation->whatsapp_number . "\n\nDonasi : " . "Produk Donasi" . "\n\nNominal Donasi : Rp" . number_format($userDonation->amount, 0, '.', '.') . "\n\nSalam Hangat " . $setting->company_name . ".\n\n Terima kasih!"
+                                    'text' => "Halo " . $userDonation->fullname . ",\n\nDonasi Anda untuk Yayasan Bali Lestari Malik membawa sinar kehidupan baru bagi anak-anak di Palestina. Terima kasih telah menjadi bagian dari perubahan positif. Semoga kebaikan Anda kembali berkali-kali lipat.\n\nBerikut adalah detail donasi kamu:\n\nNama : " . $userDonation->fullname . "\n\nEmail : " . $userDonation->email . "\n\nNomor Whatsapp : " . $userDonation->whatsapp_number . "\n\nDonasi : " . "Produk Donasi" . "\n\nNominal Donasi : Rp" . number_format($userDonation->amount, 0, '.', '.') . "\n\nSalam Hangat " . $setting->company_name . ".\n\n Terima kasih!"
                                 ]);
                             }
                         } catch (\Throwable $th) {
-                            dd($th);
                         }
                     }
 
@@ -95,7 +93,6 @@ class NotificationMidtransController extends Controller
                             try {
                                 Mail::to($userDonation->email)->send(new EmailNotificationUserDonation($userDonation));
                             } catch (\Throwable $th) {
-                                dd($th);
                             }
 
                             try {
@@ -103,11 +100,10 @@ class NotificationMidtransController extends Controller
                                     Http::post(config('app.ENGINE_URL') . '/send-message', [
                                         'session' => 'myfra',
                                         'to' => $userDonation->whatsapp_number,
-                                        'text' => "Halo " . $userDonation->fullname . ",\n\nDonasi Anda untuk Kalasahan membawa sinar kehidupan baru bagi anak-anak di Palestina. Terima kasih telah menjadi bagian dari perubahan positif. Semoga kebaikan Anda kembali berkali-kali lipat.\n\nBerikut adalah detail donasi kamu:\n\nNama : " . $userDonation->fullname . "\n\nEmail : " . $userDonation->email . "\n\nNomor Whatsapp : " . $userDonation->whatsapp_number . "\n\nPaket Donasi : " . $userDonation->availableDonation->short_description . "\n\nNominal Donasi : Rp" . number_format($userDonation->amount, 0, '.', '.') . "\n\nSalam Hangat " . $setting->company_name . ".\n\n Terima kasih!"
+                                        'text' => "Halo " . $userDonation->fullname . ",\n\nDonasi Anda untuk Yayasan Bali Lestari Malik membawa sinar kehidupan baru bagi anak-anak di Palestina. Terima kasih telah menjadi bagian dari perubahan positif. Semoga kebaikan Anda kembali berkali-kali lipat.\n\nBerikut adalah detail donasi kamu:\n\nNama : " . $userDonation->fullname . "\n\nEmail : " . $userDonation->email . "\n\nNomor Whatsapp : " . $userDonation->whatsapp_number . "\n\nPaket Donasi : " . $userDonation->availableDonation->short_description . "\n\nNominal Donasi : Rp" . number_format($userDonation->amount, 0, '.', '.') . "\n\nSalam Hangat " . $setting->company_name . ".\n\n Terima kasih!"
                                     ]);
                                 }
                             } catch (\Throwable $th) {
-                                dd($th);
                             }
                         }
                     }

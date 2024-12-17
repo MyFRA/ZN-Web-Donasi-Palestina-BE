@@ -30,7 +30,7 @@ class EmailNotificationUserProductDonationOrderResiCode extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Kalasahan | Nomor Resi Donasi Peduli Anak Anak Palestina',
+            subject: 'Bali Lestari Malik | Nomor Resi Donasi Peduli  Palestina',
         );
     }
 

@@ -1,7 +1,7 @@
 <nav id="sidebar" class="sidebar js-sidebar">
     <div class="sidebar-content js-simplebar">
         <a class='sidebar-brand' href='/'>
-            <span class="align-middle">Kalasahan</span>
+            <span class="align-middle">Bali Lestari Malik</span>
         </a>
 
         <ul class="sidebar-nav">

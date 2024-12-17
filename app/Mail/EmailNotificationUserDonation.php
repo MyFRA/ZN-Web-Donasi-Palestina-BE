@@ -30,7 +30,7 @@ class EmailNotificationUserDonation extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Kalasahan | Invoice Donasi Peduli Anak Anak Palestina',
+            subject: 'Bali Lestari Malik | Invoice Donasi Peduli  Palestina',
         );
     }
 
