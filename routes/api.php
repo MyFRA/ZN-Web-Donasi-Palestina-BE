@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AvailableDonationController;
 use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\DonationController;
 use App\Http\Controllers\Api\NewsController;
+use App\Http\Controllers\Api\NotificationDuitkuController;
 use App\Http\Controllers\Api\NotificationMidtransController;
 use App\Http\Controllers\Api\PanelApiController;
 use App\Http\Controllers\Api\ProductController;
@@ -74,4 +75,4 @@ Route::prefix('panel-api')->group(function () {
 
 Route::post('/notification-midtrans', [NotificationMidtransController::class, 'notification']);
 Route::post('/test-wa', [TestWaController::class, 'testWa']);
-Route::post('/notification-duitku', [NotificationMidtransController::class, 'notification']);
+Route::post('/notification-duitku', [NotificationDuitkuController::class, 'notification']);
