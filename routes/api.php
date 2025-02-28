@@ -74,3 +74,4 @@ Route::prefix('panel-api')->group(function () {
 
 Route::post('/notification-midtrans', [NotificationMidtransController::class, 'notification']);
 Route::post('/test-wa', [TestWaController::class, 'testWa']);
+Route::post('/notification-duitku', [NotificationMidtransController::class, 'notification']);

@@ -126,8 +126,11 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'WEB_CLIENT_URL' => env('WEB_CLIENT_URL'),
     'RAJAONGKIR_API_KEY' => env('RAJAONGKIR_API_KEY'),
     'MIDTRANS_SERVER_KEY' => env('MIDTRANS_SERVER_KEY'),
+    'DUITKU_MERCHANT_KEY' => env('DUITKU_MERCHANT_KEY'),
+    'DUITKU_MERCHANT_CODE' => env('DUITKU_MERCHANT_CODE'),
     'ENGINE_URL' => env('ENGINE_URL'),
 
     /*

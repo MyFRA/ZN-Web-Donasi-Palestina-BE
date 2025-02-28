@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Donation\RequestDonateRequest;
 use App\Models\AvailableDonation;
 use App\Models\UserDonation;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -31,7 +32,6 @@ class DonationController extends Controller
             ], 422);
         }
 
-        $midtrans_admin_fee = 4440;
 
         $userDonation = UserDonation::create([
             'order_id' => Str::uuid(),
@@ -48,6 +48,106 @@ class DonationController extends Controller
             'amount_package' => $request->amount_package
         ]);
 
+        $orderId = $userDonation->order_id;
+
+        return response()->json($this->requestDonateWithDuitku($orderId, $donationObj, $request, $userDonation));
+        // return $this->requestDonateWithMidtrans($orderId, $donationObj, $request, $userDonation);
+    }
+
+    private function requestDonateWithDuitku($orderId, $donationObj, $request, $userDonation)
+    {
+        $duitkuConfig = new \Duitku\Config(config('app.DUITKU_MERCHANT_KEY'), config('app.DUITKU_MERCHANT_CODE'));
+        // false for production mode
+        // true for sandbox mode
+        $duitkuConfig->setSandboxMode(true);
+        // set sanitizer (default : true)
+        $duitkuConfig->setSanitizedMode(false);
+        // set log parameter (default : true)
+        $duitkuConfig->setDuitkuLogs(true);
+
+        $duitku_admin_fee   = 4400;
+        $paymentAmount      = intval(($donationObj->value == 'lainnya' ? intval($request->custom_value) : $donationObj->value * $userDonation->amount_package) + $duitku_admin_fee = 4400); // Amount
+        $email              = $request->email; // your customer email
+        $phoneNumber        = $request->whatsapp_number; // your customer phone number (optional)
+        $productDetails     = "Donasi Palestine";
+        $merchantOrderId    = $orderId; // from merchant, unique   
+        $additionalParam    = ''; // optional
+        $merchantUserInfo   = ''; // optional
+        $customerVaName     = $request->is_fullname_hidden ? 'Dermawan' : $request->fullname; // display name on bank confirmation display
+        $callbackUrl        = url('/api/notification-duitku'); // url for callback
+        $returnUrl          = config('app.WEB_CLIENT_URL') . '/success'; // url for redirect
+        $expiryPeriod       = 60; // set the expired time in minutes
+
+        // Customer Detail
+        $firstName          = $request->is_fullname_hidden ? 'Dermawan' : $request->fullname;
+        $lastName           = "";
+
+        // Address
+        $alamat             = "Jl. Kembangan Raya";
+        $city               = "Jakarta";
+        $postalCode         = "11530";
+        $countryCode        = "ID";
+
+        $address = array(
+            'firstName'     => $firstName,
+            'lastName'      => $lastName,
+            'address'       => $alamat,
+            'city'          => $city,
+            'postalCode'    => $postalCode,
+            'phone'         => $phoneNumber,
+            'countryCode'   => $countryCode
+        );
+
+        $customerDetail = array(
+            'firstName'         => $firstName,
+            'lastName'          => $lastName,
+            'email'             => $email,
+            'phoneNumber'       => $phoneNumber,
+            'billingAddress'    => $address,
+            'shippingAddress'   => $address
+        );
+
+        $itemDetails = [
+            [
+                'price' => $donationObj->value == 'lainnya' ? $request->custom_value : $donationObj->value * $userDonation->amount_package,
+                'quantity' => 1,
+                'name' => $donationObj->short_description
+            ],
+            [
+                'price' => $duitku_admin_fee,
+                'quantity' => 1,
+                'name' => 'Biaya Admin Bank'
+            ]
+        ];
+
+        $params = array(
+            'paymentAmount'     => $paymentAmount,
+            'merchantOrderId'   => $merchantOrderId,
+            'productDetails'    => $productDetails,
+            'additionalParam'   => $additionalParam,
+            'merchantUserInfo'  => $merchantUserInfo,
+            'customerVaName'    => $customerVaName,
+            'email'             => $email,
+            'phoneNumber'       => $phoneNumber,
+            'itemDetails'       => $itemDetails,
+            'customerDetail'    => $customerDetail,
+            'callbackUrl'       => $callbackUrl,
+            'returnUrl'         => $returnUrl,
+            'expiryPeriod'      => $expiryPeriod
+        );
+
+        try {
+            // createInvoice Request
+            $responseDuitkuPop = \Duitku\Pop::createInvoice($params, $duitkuConfig);
+
+            return json_decode($responseDuitkuPop);
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    private function requestDonateWithMidtrans($orderId, $donationObj, $request, $userDonation)
+    {
         \Midtrans\Config::$serverKey = config('app.MIDTRANS_SERVER_KEY');
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
         \Midtrans\Config::$isProduction = false;
@@ -55,8 +155,7 @@ class DonationController extends Controller
         \Midtrans\Config::$isSanitized = true;
         // Set 3DS transaction for credit card to true
         \Midtrans\Config::$is3ds = true;
-
-        $orderId = $userDonation->order_id;
+        $midtrans_admin_fee = 4440;
 
         $params = [
             'transaction_details' => [
