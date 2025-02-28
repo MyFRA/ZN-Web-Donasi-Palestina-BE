@@ -63,7 +63,7 @@ class DonationController extends Controller
         // set sanitizer (default : true)
         $duitkuConfig->setSanitizedMode(false);
         // set log parameter (default : true)
-        $duitkuConfig->setDuitkuLogs(true);
+        $duitkuConfig->setDuitkuLogs(false);
 
         $duitku_admin_fee   = 4400;
         $paymentAmount      = intval(($donationObj->value == 'lainnya' ? intval($request->custom_value) : $donationObj->value * $userDonation->amount_package) + $duitku_admin_fee = 4400); // Amount
