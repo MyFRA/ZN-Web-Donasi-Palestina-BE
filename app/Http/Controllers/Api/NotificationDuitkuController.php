@@ -45,20 +45,58 @@ class NotificationDuitkuController extends Controller
 
                 if ($signature == $calcSignature) {
                     $productDonationOrder = ProductDonationOrder::where('order_id', $merchantOrderId)->first();
+                    $userDonation = UserDonation::where('order_id', $merchantOrderId)->first();
 
-                    $productDonationOrder->update([
-                        'payment_status' => 'success',
-                        'shipment_status' => 'Payment Received'
-                    ]);
-
-                    if (!DonationRecap::where('foreign_id', $productDonationOrder->id)->where('type', 'product_donation_orders')->first()) {
-                        DonationRecap::create([
-                            'foreign_id' => $productDonationOrder->id,
-                            'fullname' => $productDonationOrder->full_name,
-                            'type' => 'product_donation_orders',
-                            'amount' => $productDonationOrder->total,
-                            'message' => $productDonationOrder->message
+                    if ($productDonationOrder) {
+                        $productDonationOrder->update([
+                            'payment_status' => 'success',
+                            'shipment_status' => 'Payment Received'
                         ]);
+
+                        if (!DonationRecap::where('foreign_id', $productDonationOrder->id)->where('type', 'product_donation_orders')->first()) {
+                            DonationRecap::create([
+                                'foreign_id' => $productDonationOrder->id,
+                                'fullname' => $productDonationOrder->full_name,
+                                'type' => 'product_donation_orders',
+                                'amount' => $productDonationOrder->total,
+                                'message' => $productDonationOrder->message
+                            ]);
+                        }
+                    }
+
+                    if ($userDonation) {
+                        $userDonation->update([
+                            'status' => 'success',
+                            'payment_method' => ''
+                        ]);
+
+                        if (!DonationRecap::where('foreign_id', $userDonation->id)->where('type', 'user_donations')->first()) {
+                            DonationRecap::create([
+                                'foreign_id' => $userDonation->id,
+                                'fullname' => $userDonation->fullname,
+                                'type' => 'user_donations',
+                                'amount' => $userDonation->amount,
+                                'message' => $userDonation->message
+                            ]);
+                        }
+
+                        if ($userDonation->email) {
+                            try {
+                                Mail::to($userDonation->email)->send(new EmailNotificationUserDonation($userDonation));
+                            } catch (\Throwable $th) {
+                            }
+
+                            try {
+                                if ($userDonation->whatsapp_number) {
+                                    Http::post(config('app.ENGINE_URL') . '/send-message', [
+                                        'session' => 'myfra',
+                                        'to' => $userDonation->whatsapp_number,
+                                        'text' => "Halo " . $userDonation->fullname . ",\n\nDonasi Anda untuk Yayasan Bali Lestari Malik membawa sinar kehidupan baru bagi anak-anak di Palestina. Terima kasih telah menjadi bagian dari perubahan positif. Semoga kebaikan Anda kembali berkali-kali lipat.\n\nBerikut adalah detail donasi kamu:\n\nNama : " . $userDonation->fullname . "\n\nEmail : " . $userDonation->email . "\n\nNomor Whatsapp : " . $userDonation->whatsapp_number . "\n\nPaket Donasi : " . $userDonation->availableDonation->short_description . "\n\nNominal Donasi : Rp" . number_format($userDonation->amount, 0, '.', '.') . "\n\nSalam Hangat " . $setting->company_name . ".\n\n Terima kasih!"
+                                    ]);
+                                }
+                            } catch (\Throwable $th) {
+                            }
+                        }
                     }
                 } else {
                     // file_put_contents('callback.txt', "* Bad Signature *\r\n\r\n", FILE_APPEND | LOCK_EX);
