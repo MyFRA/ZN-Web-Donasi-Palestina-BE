@@ -11,8 +11,8 @@ class BrickHelper
     public static function generateJwtToken()
     {
         $client = new Client();
-        $response = $client->get('https://sandbox.onebrick.io/v2/payments/auth/token', [
-            'auth' => ['93379ea6-38b0-432c-be18-45b79f89dd73', 'OFMOThp17o9cwVzA82KBD28aeH2F3j']
+        $response = $client->get('https://onebrick.io/v2/payments/auth/token', [
+            'auth' => ['fab9d303-8891-4fb9-9acb-f668e4ead223', 'kYxiG5ox1butD1UnfaDpO07ptUZSZ1']
         ]);
 
         return json_decode($response->getBody())->data->accessToken;
@@ -27,7 +27,7 @@ class BrickHelper
             ]
         ]);
 
-        $response = $client->post('https://sandbox.onebrick.io/v2/payments/gs/va/close', [
+        $response = $client->post('https://onebrick.io/v2/payments/gs/va/close', [
             'body' => json_encode([
                 "amount" => $userDonation->amount,
                 "referenceId" => $orderId,
@@ -50,7 +50,7 @@ class BrickHelper
             ]
         ]);
 
-        $response = $client->get('https://sandbox.onebrick.io/v2/payments/gs/va/close?vaId=' . $vaId);
+        $response = $client->get('https://onebrick.io/v2/payments/gs/va/close?vaId=' . $vaId);
 
         return json_decode($response->getBody())->data;
     }
@@ -64,7 +64,7 @@ class BrickHelper
             ]
         ]);
 
-        $response = $client->post('https://sandbox.onebrick.io/v2/payments/gs/va/close/status/' . $vaId, [
+        $response = $client->post('https://onebrick.io/v2/payments/gs/va/close/status/' . $vaId, [
             'body' => json_encode([
                 'action' => 'PAID'
             ])
