@@ -17,7 +17,7 @@ class NotificationBrickController extends Controller
     public function notification(Request $req)
     {
         try {
-            $merchantOrderId = isset($req['referenceId']) ? $req['referenceId'] : null;
+            $merchantOrderId = isset($_POST['referenceId']) ? $_POST['referenceId'] : null;
             $setting = Setting::first();
 
             $productDonationOrder = ProductDonationOrder::where('order_id', $merchantOrderId)->first();
@@ -43,7 +43,7 @@ class NotificationBrickController extends Controller
             if ($userDonation) {
                 $userDonation->update([
                     'status' => 'success',
-                    'payment_method' => $req['bankShortCode']
+                    'payment_method' => $_POST['bankShortCode']
                 ]);
 
                 if (!DonationRecap::where('foreign_id', $userDonation->id)->where('type', 'user_donations')->first()) {
