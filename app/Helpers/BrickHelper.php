@@ -30,7 +30,7 @@ class BrickHelper
         $response = $client->post('https://sandbox.onebrick.io/v2/payments/gs/va/close', [
             'body' => json_encode([
                 "amount" => $userDonation->amount,
-                "referenceId" => $userDonation->id,
+                "referenceId" => $orderId,
                 "expiredAt" => "600",
                 "description" => "Donation",
                 "bankShortCode" => $bankShortCode,
