@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Mail;
 
 class NotificationBrickController extends Controller
 {
-    public function notification(Request $req)
+    public function notification(Request $request)
     {
         try {
-            $merchantOrderId = isset($_POST['referenceId']) ? $_POST['referenceId'] : null;
+            $merchantOrderId = isset($request['data']['referenceId']) ? $request['data']['referenceId'] : null;
             $setting = Setting::first();
 
             $productDonationOrder = ProductDonationOrder::where('order_id', $merchantOrderId)->first();
@@ -43,7 +43,7 @@ class NotificationBrickController extends Controller
             if ($userDonation) {
                 $userDonation->update([
                     'status' => 'success',
-                    'payment_method' => $_POST['bankShortCode']
+                    'payment_method' => $request['data']['bankShortCode']
                 ]);
 
                 if (!DonationRecap::where('foreign_id', $userDonation->id)->where('type', 'user_donations')->first()) {
