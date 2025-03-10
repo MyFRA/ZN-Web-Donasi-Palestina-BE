@@ -10,7 +10,19 @@ class UserDonation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'amount', 'order_id', 'fullname', 'whatsapp_number', 'email', 'message', 'payment_method', 'platform_payment_method', 'status', 'available_donation_id', 'amount_package', 'package_item_price'
+        'amount',
+        'order_id',
+        'fullname',
+        'whatsapp_number',
+        'email',
+        'message',
+        'payment_method',
+        'platform_payment_method',
+        'status',
+        'available_donation_id',
+        'amount_package',
+        'package_item_price',
+        'va_id'
     ];
 
     public function availableDonation()

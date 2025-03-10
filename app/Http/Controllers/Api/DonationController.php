@@ -51,8 +51,14 @@ class DonationController extends Controller
 
         $orderId = $userDonation->order_id;
 
+        $data = $this->requestDonateWithBrick($orderId, $donationObj, $request, $userDonation, $request->short_bank_code);
+
+        $userDonation->update([
+            'va_id' => $data->id
+        ]);
+
         return response()->json([
-            'data' => $this->requestDonateWithBrick($orderId, $donationObj, $request, $userDonation, $request->short_bank_code)
+            'data' => $data
         ]);
     }
 
