@@ -4,14 +4,17 @@ use App\Http\Controllers\Api\AvailableDonationController;
 use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\DonationController;
 use App\Http\Controllers\Api\NewsController;
+use App\Http\Controllers\Api\NotificationBrickController;
 use App\Http\Controllers\Api\NotificationDuitkuController;
 use App\Http\Controllers\Api\NotificationMidtransController;
 use App\Http\Controllers\Api\PanelApiController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RecapDonationController;
 use App\Http\Controllers\Api\SettingCompanyController;
 use App\Http\Controllers\Api\ShippingController;
 use App\Http\Controllers\Api\Temp\TestWaController;
+use App\Http\Controllers\Api\VirtualBankAccountController;
 use App\Http\Controllers\Api\WebDonationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -76,3 +79,15 @@ Route::prefix('panel-api')->group(function () {
 Route::post('/notification-midtrans', [NotificationMidtransController::class, 'notification']);
 Route::post('/test-wa', [TestWaController::class, 'testWa']);
 Route::post('/notification-duitku', [NotificationDuitkuController::class, 'notification']);
+Route::post('/notification-brick', [NotificationBrickController::class, 'notification']);
+
+Route::group([
+    'prefix' => 'virtual-bank-accounts'
+], function () {
+    Route::get('/', [VirtualBankAccountController::class, 'index']);
+});
+
+Route::prefix('/payment')->group(function () {
+    Route::get('/status/{vaId}', [PaymentController::class, 'checkPaymentStatus']);
+    Route::post('/status/{vaId}', [PaymentController::class, 'setPaymentStatus']);
+});

@@ -9,6 +9,7 @@ use App\Http\Controllers\Panel\ProductDonationController;
 use App\Http\Controllers\Panel\ProductDonationOrderCollectedController;
 use App\Http\Controllers\Panel\SettingController;
 use App\Http\Controllers\Panel\SettingWebDonationController;
+use App\Http\Controllers\Panel\VirtualBankAccountController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,6 +75,12 @@ Route::group([
     Route::prefix('/product-donation-orders-collected')->group(function () {
         Route::get('/', [ProductDonationOrderCollectedController::class, 'index']);
         Route::put('/{id}/shipped', [ProductDonationOrderCollectedController::class, 'updateToShipped']);
+    });
+
+    Route::prefix('/bank-accounts')->group(function () {
+        Route::get('/', [VirtualBankAccountController::class, 'index']);
+        Route::get('/{id}/edit', [VirtualBankAccountController::class, 'edit']);
+        Route::put('/{id}', [VirtualBankAccountController::class, 'update']);
     });
 });
 

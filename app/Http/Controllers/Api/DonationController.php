@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\BrickHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Donation\RequestDonateRequest;
 use App\Models\AvailableDonation;
@@ -42,7 +43,7 @@ class DonationController extends Controller
             'email' => $request->email,
             'message' => $request->message,
             'payment_method' => null,
-            'platform_payment_method' => 'midtrans',
+            'platform_payment_method' => 'brick',
             'status' => 'pending',
             'available_donation_id' => $request->donation_id,
             'amount_package' => $request->amount_package
@@ -50,8 +51,16 @@ class DonationController extends Controller
 
         $orderId = $userDonation->order_id;
 
-        return response()->json($this->requestDonateWithDuitku($orderId, $donationObj, $request, $userDonation));
-        // return $this->requestDonateWithMidtrans($orderId, $donationObj, $request, $userDonation);
+        return response()->json([
+            'data' => $this->requestDonateWithBrick($orderId, $donationObj, $request, $userDonation, $request->short_bank_code)
+        ]);
+    }
+
+    private function requestDonateWithBrick($orderId, $donationObj, $request, $userDonation, $bankShortCode)
+    {
+        $jwtBrickToken = BrickHelper::generateJwtToken();
+
+        return BrickHelper::createCloseVa($jwtBrickToken, $orderId, $userDonation, $bankShortCode);
     }
 
     private function requestDonateWithDuitku($orderId, $donationObj, $request, $userDonation)

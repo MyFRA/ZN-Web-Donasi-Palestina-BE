@@ -1,0 +1,16 @@
+{
+    "merchantCode": "DS22178",
+    "amount": "104400",
+    "merchantOrderId": "acb361d2-8267-4e6b-ad36-9a3ff6b616ea",
+    "productDetail": "Donasi Palestine",
+    "additionalParam": "",
+    "resultCode": "00",
+    "signature": "ffe859f07c94b1cfed106a5d347c35ed",
+    "paymentCode": "BC",
+    "merchantUserId": "",
+    "reference": "DS2217825M0BX60KS0CZBULF",
+    "spUserHash": "",
+    "settlementDate": "2025-03-03",
+    "publisherOrderId": "BC25QHGESXA4XA8BMTT",
+    "sourceAccount": ""
+}

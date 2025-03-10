@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             DonationRecapsTableSeeder::class,
             NewsTableSeeder::class,
             SettingsTableSeeder::class,
-            SettingWebDonationsTableSeeder::class
+            SettingWebDonationsTableSeeder::class,
+            VirtualBanksTableSeeder::class
         ]);
     }
 }
