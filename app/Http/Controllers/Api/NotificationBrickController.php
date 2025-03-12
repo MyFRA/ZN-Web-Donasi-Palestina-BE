@@ -23,22 +23,22 @@ class NotificationBrickController extends Controller
             $productDonationOrder = ProductDonationOrder::where('order_id', $merchantOrderId)->first();
             $userDonation = UserDonation::where('order_id', $merchantOrderId)->first();
 
-            if ($productDonationOrder) {
-                $productDonationOrder->update([
-                    'payment_status' => 'success',
-                    'shipment_status' => 'Payment Received'
-                ]);
+            // if ($productDonationOrder) {
+            //     $productDonationOrder->update([
+            //         'payment_status' => 'success',
+            //         'shipment_status' => 'Payment Received'
+            //     ]);
 
-                if (!DonationRecap::where('foreign_id', $productDonationOrder->id)->where('type', 'product_donation_orders')->first()) {
-                    DonationRecap::create([
-                        'foreign_id' => $productDonationOrder->id,
-                        'fullname' => $productDonationOrder->full_name,
-                        'type' => 'product_donation_orders',
-                        'amount' => $productDonationOrder->total,
-                        'message' => $productDonationOrder->message
-                    ]);
-                }
-            }
+            //     if (!DonationRecap::where('foreign_id', $productDonationOrder->id)->where('type', 'product_donation_orders')->first()) {
+            //         DonationRecap::create([
+            //             'foreign_id' => $productDonationOrder->id,
+            //             'fullname' => $productDonationOrder->full_name,
+            //             'type' => 'product_donation_orders',
+            //             'amount' => $productDonationOrder->total,
+            //             'message' => $productDonationOrder->message
+            //         ]);
+            //     }
+            // }
 
             if ($userDonation) {
                 $userDonation->update([

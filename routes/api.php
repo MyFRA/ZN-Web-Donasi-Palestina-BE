@@ -76,9 +76,9 @@ Route::prefix('panel-api')->group(function () {
     Route::post('/temp-upload-image', [PanelApiController::class, 'tempUploadImage']);
 });
 
-Route::post('/notification-midtrans', [NotificationMidtransController::class, 'notification']);
+// Route::post('/notification-midtrans', [NotificationMidtransController::class, 'notification']);
 Route::post('/test-wa', [TestWaController::class, 'testWa']);
-Route::post('/notification-duitku', [NotificationDuitkuController::class, 'notification']);
+// Route::post('/notification-duitku', [NotificationDuitkuController::class, 'notification']);
 Route::post('/notification-brick', [NotificationBrickController::class, 'notification']);
 
 Route::group([
