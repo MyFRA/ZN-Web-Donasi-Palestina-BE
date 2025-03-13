@@ -33,7 +33,6 @@ class DonationController extends Controller
             ], 422);
         }
 
-
         $userDonation = UserDonation::create([
             'order_id' => Str::uuid(),
             'package_item_price' => $donationObj->value == 'lainnya' ? intval($request->custom_value) : $donationObj->value,
@@ -49,24 +48,32 @@ class DonationController extends Controller
             'amount_package' => $request->amount_package
         ]);
 
-        $orderId = $userDonation->order_id;
+        $data = $this->requestDonateWithBrick($userDonation->order_id, $donationObj, $request, $userDonation, $request->short_bank_code, $request->type);
 
-        $data = $this->requestDonateWithBrick($orderId, $donationObj, $request, $userDonation, $request->short_bank_code);
-
-        $userDonation->update([
-            'va_id' => $data->id
-        ]);
+        if ($request->type == 'va') {
+            $userDonation->update([
+                'va_id' => $data->id
+            ]);
+        } else if ($request->type == 'ewallet') {
+            $userDonation->update([
+                'ewallet_id' => $data->id
+            ]);
+        }
 
         return response()->json([
             'data' => $data
         ]);
     }
 
-    private function requestDonateWithBrick($orderId, $donationObj, $request, $userDonation, $bankShortCode)
+    private function requestDonateWithBrick($orderId, $donationObj, $request, $userDonation, $bankShortCode, $type)
     {
         $jwtBrickToken = BrickHelper::generateJwtToken();
 
-        return BrickHelper::createCloseVa($jwtBrickToken, $orderId, $userDonation, $bankShortCode);
+        if ($type == 'va') {
+            return BrickHelper::createCloseVa($jwtBrickToken, $orderId, $userDonation, $bankShortCode);
+        } else if ($type == 'ewallet') {
+            return BrickHelper::createEwallet($jwtBrickToken, $orderId, $userDonation, $bankShortCode);
+        }
     }
 
     private function requestDonateWithDuitku($orderId, $donationObj, $request, $userDonation)

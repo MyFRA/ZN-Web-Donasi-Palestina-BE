@@ -12,6 +12,7 @@ class VirtualBankAccount extends Model
     protected $fillable = [
         'image',
         'bank_name',
-        'bank_short_code'
+        'bank_short_code',
+        'type'
     ];
 }

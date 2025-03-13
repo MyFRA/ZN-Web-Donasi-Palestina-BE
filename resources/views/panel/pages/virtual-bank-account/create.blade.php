@@ -7,12 +7,11 @@
         <div class="row mt-4">
             <div class="col-lg-6">
                 <div class="card">
-                    <form action="{{ url('/panel/bank-accounts/' . $bankAccount->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ url('/panel/bank-accounts') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT')
                         <div class="card-body">
                             <div class="form-group mb-3">
-                                <img src="{{ url('/storage/virtual-bank-accounts/image/' . $bankAccount->image) }}" width="75px" alt="" id="image-preview"><br>
+                                <img src="{{ asset('/no-image.jpg') }}" width="75px" alt="" id="image-preview"><br>
                                 <label for="image">Gambar</label>
                                 <input type="file" accept="image/*" name="image" class="form-control @error('image') is-invalid @enderror" id="image" onchange="setImagePreview(this)">
 
@@ -24,7 +23,7 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label for="bank_name">Bank Name</label>
-                                <input type="text" name="bank_name" class="form-control @error('bank_name') is-invalid @enderror" id="bank_name" placeholder="Bank Name" value="{{ old('bank_name') ? old('bank_name') : $bankAccount->bank_name }}">
+                                <input type="text" name="bank_name" class="form-control @error('bank_name') is-invalid @enderror" id="bank_name" placeholder="Bank Name" value="{{ old('bank_name') }}">
 
                                 @error('bank_name')
                                     <div class="invalid-feedback">
@@ -34,7 +33,7 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label for="bank_short_code">Bank Short Code</label>
-                                <input type="text" name="bank_short_code" class="form-control @error('bank_short_code') is-invalid @enderror" id="bank_short_code" placeholder="Bank Name" value="{{ old('bank_short_code') ? old('bank_short_code') : $bankAccount->bank_short_code }}">
+                                <input type="text" name="bank_short_code" class="form-control @error('bank_short_code') is-invalid @enderror" id="bank_short_code" placeholder="Bank Name" value="{{ old('bank_short_code') }}">
 
                                 @error('bank_short_code')
                                     <div class="invalid-feedback">
@@ -47,9 +46,7 @@
                                 <select name="type" id="type" class="form-control" required>
                                     <option value="">Choose Type</option>
                                     @foreach ($types as $type)
-                                        <option value="{{ $type }}" @if (old('type')) {{ old('type') == $type ? 'selected' : '' }}
-                                            @else
-                                            {{ $bankAccount->type == $type ? 'selected' : '' }} @endif>{{ ucfirst($type) }}</option>
+                                        <option value="{{ $type }}" {{ old('type') == $type ? 'selected' : '' }}>{{ ucfirst($type) }}</option>
                                     @endforeach
                                 </select>
 
@@ -62,7 +59,7 @@
                         </div>
                         <hr>
                         <div class="card-footer d-flex justify-content-end">
-                            <button class="btn btn-primary" type="submit"><i class="zmdi zmdi-save"></i> Update</button>
+                            <button class="btn btn-primary" type="submit"><i class="zmdi zmdi-save"></i> Save</button>
                         </div>
                     </form>
                 </div>

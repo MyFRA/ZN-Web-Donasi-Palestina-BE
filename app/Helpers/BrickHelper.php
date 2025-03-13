@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class BrickHelper
 {
@@ -34,12 +35,53 @@ class BrickHelper
                 "expiredAt" => "600",
                 "description" => "Donation",
                 "bankShortCode" => $bankShortCode,
-                "displayName" => "Nusantara For Palestine"
+                "displayName" => "Nurul Inaroh"
             ])
         ]);
 
         return json_decode($response->getBody())->data;
     }
+
+    public static function createQrisVa($jwtBrickToken, $orderId, $userDonation, $bankShortCode)
+    {
+        $client = new Client([
+            'headers' => [
+                'publicAccessToken' => ('Bearer ' . $jwtBrickToken),
+                'Content-Type' => 'application/json',
+            ]
+        ]);
+
+        $response = $client->post('https://api.onebrick.io/v2/payments/gs/qris/dynamic', [
+            'body' => json_encode([
+                "referenceId" => 'test-qris-sandbox',
+                "amount" => $userDonation->amount,
+                "validityPeriod" => "86400",
+            ])
+        ]);
+
+        return json_decode($response->getBody())->data;
+    }
+
+    public static function createEwallet($jwtBrickToken, $orderId, $userDonation, $bankShortCode)
+    {
+        $client = new Client([
+            'headers' => [
+                'publicAccessToken' => ('Bearer ' . $jwtBrickToken),
+                'Content-Type' => 'application/json',
+            ]
+        ]);
+        $response = $client->post('https://api.onebrick.io/v2/payments/gs/acceptance/ewallet', [
+            'body' => json_encode([
+                "amount" => $userDonation->amount,
+                "referenceId" => $orderId,
+                "ewalletCode" => $bankShortCode,
+                "returnUrl" => config("app.WEB_CLIENT_URL") . '/success'
+            ])
+        ]);
+
+        return json_decode($response->getBody())->data;
+    }
+
 
     public static function checkPaymentStatus($vaId)
     {

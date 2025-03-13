@@ -11,6 +11,8 @@
             </div>
         @endif
 
+        <a href="{{ url('/panel/bank-accounts/create') }}" class="mt-2 btn btn-success"><i class="zmdi zmdi-plus"></i> Create Virtual Bank Account</a>
+
         <div class="row mt-3">
             <div class="col">
                 <div class="card">
@@ -42,6 +44,9 @@
                                                 <a href="{{ url('/panel/bank-accounts/' . $donation->id . '/edit') }}" class="btn btn-sm btn-primary">
                                                     <i class="zmdi zmdi-edit"></i> Edit
                                                 </a>
+                                                <button onclick="onDelete(this)" data-url="{{ url('/panel/bank-accounts/' . $donation->id) }}" type="button" class="btn btn-sm btn-danger">
+                                                    <i class="zmdi zmdi-delete"></i> hapus
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach

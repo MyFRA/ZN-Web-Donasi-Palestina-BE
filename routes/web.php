@@ -79,8 +79,11 @@ Route::group([
 
     Route::prefix('/bank-accounts')->group(function () {
         Route::get('/', [VirtualBankAccountController::class, 'index']);
+        Route::get('/create', [VirtualBankAccountController::class, 'create']);
+        Route::post('/', [VirtualBankAccountController::class, 'store']);
         Route::get('/{id}/edit', [VirtualBankAccountController::class, 'edit']);
         Route::put('/{id}', [VirtualBankAccountController::class, 'update']);
+        Route::delete('/{id}', [VirtualBankAccountController::class, 'destroy']);
     });
 });
 

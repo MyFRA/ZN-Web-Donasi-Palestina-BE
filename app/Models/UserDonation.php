@@ -9,6 +9,10 @@ class UserDonation extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'order_id' => 'string'
+    ];
+
     protected $fillable = [
         'amount',
         'order_id',
@@ -22,7 +26,8 @@ class UserDonation extends Model
         'available_donation_id',
         'amount_package',
         'package_item_price',
-        'va_id'
+        'va_id',
+        'ewallet_id'
     ];
 
     public function availableDonation()

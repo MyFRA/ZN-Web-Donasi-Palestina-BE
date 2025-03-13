@@ -43,7 +43,7 @@ class NotificationBrickController extends Controller
             if ($userDonation) {
                 $userDonation->update([
                     'status' => 'success',
-                    'payment_method' => $request['data']['bankShortCode']
+                    'payment_method' => isset($request['data']['bankShortCode']) ? $request['data']['bankShortCode'] : 'Ewallet'
                 ]);
 
                 if (!DonationRecap::where('foreign_id', $userDonation->id)->where('type', 'user_donations')->first()) {
